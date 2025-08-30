@@ -2,12 +2,12 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     // MARK: - Lifecycle
-    @IBOutlet private var indexLabel: UILabel!
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var textLabel: UILabel!
-    @IBOutlet private var questionLabel: UILabel!
-    @IBOutlet private var noButton: UIButton!
-    @IBOutlet private var yesButton: UIButton!
+    @IBOutlet weak private var indexLabel: UILabel!
+    @IBOutlet weak private var imageView: UIImageView!
+    @IBOutlet weak private var textLabel: UILabel!
+    @IBOutlet weak private var questionLabel: UILabel!
+    @IBOutlet weak private var noButton: UIButton!
+    @IBOutlet weak private var yesButton: UIButton!
     
     private var alertPresenter = AlertPresenter()
     private var presenter: MovieQuizPresenter?
