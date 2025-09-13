@@ -10,4 +10,6 @@ protocol MovieQuizViewControllerProtocol: AnyObject {
     func show(quiz result: QuizResultViewModel)
     func highlightAnswer(isCorrect: Bool)
     func removeHighlight()
+    func didLoadDataFromServer()
+    func didFailToLoadData(with error: Error)
 }
