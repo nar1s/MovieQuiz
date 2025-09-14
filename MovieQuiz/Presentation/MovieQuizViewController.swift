@@ -35,7 +35,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         yesButton.titleLabel?.font = .ysDisplayMedium20
         textLabel.font = .ysDisplayBold23
         textLabel.text = ""
-        showLoadingIndicator()
+        setLoadingIndicator(isVisible: true)
     }
     
     private func setButtonsEnabled(_ isEnabled: Bool) {
@@ -43,18 +43,13 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         noButton.isEnabled = isEnabled
     }
     
-    private func showLoadingIndicator() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    private func hideLoadingIndicator() {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
+    private func setLoadingIndicator(isVisible: Bool) {
+        activityIndicator.isHidden = !isVisible
+        isVisible ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
     
     private func showNetworkError(message: String) {
-        hideLoadingIndicator()
+        setLoadingIndicator(isVisible: false)
         
         let alertModel = AlertModel(
             title: "Ошибка",
@@ -65,7 +60,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         }
         
         alertPresenter.show(in: self, model: alertModel)
-        showLoadingIndicator()
+        setLoadingIndicator(isVisible: true)
     }
     
     func show(quiz step: QuizStepViewModel) {

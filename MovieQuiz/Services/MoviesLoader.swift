@@ -7,17 +7,21 @@
 
 import Foundation
 
-protocol MoviesLoading {
+private enum Constants {
+    static let top250MoviesURLString = "https://tv-api.com/en/API/Top250Movies/k_zcuw1ytf"
+}
+
+protocol MoviesLoadingProtocol {
     func loadMovies(handler: @escaping (Result<MostPopularMovies, Error>) -> Void)
 }
 
-struct MoviesLoader: MoviesLoading {
+struct MoviesLoader: MoviesLoadingProtocol {
     // MARK: - NetworkClient
     private let networkClient = NetworkClient()
     
     // MARK: - URL
     private var mostPopularMoviesUrl: URL {
-            guard let url = URL(string: "https://tv-api.com/en/API/Top250Movies/k_zcuw1ytf") else {
+            guard let url = URL(string: Constants.top250MoviesURLString) else {
                 preconditionFailure("Unable to construct mostPopularMoviesUrl")
             }
             return url

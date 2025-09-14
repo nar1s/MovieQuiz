@@ -8,7 +8,7 @@ import UIKit
 
 final class MovieQuizPresenter {
     private weak var viewController: MovieQuizViewControllerProtocol?
-    private let moviesLoader: MoviesLoading
+    private let moviesLoader: MoviesLoadingProtocol
     private let statisticsService: StatisticsServiceProtocol
     private lazy var questionFactory: QuestionFactoryProtocol = {
         QuestionFactory(moviesLoader: moviesLoader, delegate: self)
@@ -21,7 +21,7 @@ final class MovieQuizPresenter {
     
     init(viewController: MovieQuizViewControllerProtocol,
          statisticsService: StatisticsServiceProtocol,
-         moviesLoader: MoviesLoading = MoviesLoader()) {
+         moviesLoader: MoviesLoadingProtocol = MoviesLoader()) {
         self.viewController = viewController
         self.statisticsService = statisticsService
         self.moviesLoader = moviesLoader

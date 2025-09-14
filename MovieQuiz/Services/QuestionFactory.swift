@@ -7,24 +7,17 @@
 
 import Foundation
 
+private enum Constants {
+    static let maxRating: Int = 9
+    static let ratingDelta: Int = 1
+}
+
 final class QuestionFactory: QuestionFactoryProtocol {
-//    private let questions: [QuizQuestion] =
-//    [QuizQuestion(image: "The Godfather", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "The Dark Knight", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "Kill Bill", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "The Avengers", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "Deadpool", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "The Green Knight", text: "Рейтинг этого фильма больше 6?", correctAnswer: true),
-//     QuizQuestion(image: "Old", text: "Рейтинг этого фильма больше 6?", correctAnswer: false),
-//     QuizQuestion(image: "The Ice Age Adventures of Buck Wild", text: "Рейтинг этого фильма больше 6?", correctAnswer: false),
-//     QuizQuestion(image: "Tesla", text: "Рейтинг этого фильма больше 6?", correctAnswer: false),
-//     QuizQuestion(image: "Vivarium", text: "Рейтинг этого фильма больше 6?", correctAnswer: false)]
-//
-    private var moviesLoader: MoviesLoading
+    private var moviesLoader: MoviesLoadingProtocol
     private weak var delegate: QuestionFactoryDelegate?
     private var movies: [MostPopularMovie] = []
     
-    init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate) {
+    init(moviesLoader: MoviesLoadingProtocol, delegate: QuestionFactoryDelegate) {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
@@ -61,9 +54,29 @@ final class QuestionFactory: QuestionFactoryProtocol {
             }
                
             let rating = Float(movie.rating) ?? 0
+            var ratingsAsked: [Int] = []
+            if Int(rating) < Constants.maxRating {
+                ratingsAsked = [Int(rating) - Constants.ratingDelta,
+                                Int(rating),
+                                Int(rating) + Constants.ratingDelta]
+            } else if Int(rating) == Constants.maxRating {
+                ratingsAsked = [Int(rating) - Constants.ratingDelta, Int(rating)]
+            }
             
-            let text = "Рейтинг этого фильма больше чем 7?"
-            let correctAnswer = rating > 7
+            let ratingQuestion = ratingsAsked.randomElement() ?? 0
+            
+            let askMore = Bool.random()
+            
+            let text: String
+            let correctAnswer: Bool
+            
+            if askMore {
+                text = "Рейтинг этого фильма больше чем \(ratingQuestion)?"
+                correctAnswer = rating > Float(ratingQuestion)
+            } else {
+                text = "Рейтинг этого фильма меньше чем \(ratingQuestion)?"
+                correctAnswer = rating < Float(ratingQuestion)
+            }
                
             let question = QuizQuestion(image: imageData,
                                         text: text,
