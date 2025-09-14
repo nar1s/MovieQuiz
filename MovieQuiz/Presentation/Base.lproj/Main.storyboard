@@ -98,10 +98,15 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZRf-f7-2Hs">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="ZRf-f7-2Hs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="K6L-Vr-fDX"/>
+                            <constraint firstItem="ZRf-f7-2Hs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Sqc-3G-JjM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HXL-HV-AcD" secondAttribute="trailing" constant="20" id="c1S-Cj-sls"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HXL-HV-AcD" secondAttribute="bottom" id="lwQ-3D-9YZ"/>
                             <constraint firstItem="HXL-HV-AcD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="naL-HR-SHQ"/>
@@ -109,6 +114,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="ZRf-f7-2Hs" id="Etf-Ar-FPW"/>
                         <outlet property="imageView" destination="M0g-0b-QoA" id="w5x-S8-9OJ"/>
                         <outlet property="indexLabel" destination="CRt-yp-Ab8" id="x6G-8M-fJx"/>
                         <outlet property="noButton" destination="BHT-jT-i6C" id="mfm-Lp-kN9"/>

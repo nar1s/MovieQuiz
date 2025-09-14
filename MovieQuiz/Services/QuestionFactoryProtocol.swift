@@ -7,6 +7,5 @@
 
 protocol QuestionFactoryProtocol {
     func requestNextQuestion()
-    func setup(delegate: QuestionFactoryDelegate)
-    func reset()
+    func loadData()
 }

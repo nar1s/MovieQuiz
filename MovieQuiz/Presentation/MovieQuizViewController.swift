@@ -8,6 +8,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak private var questionLabel: UILabel!
     @IBOutlet weak private var noButton: UIButton!
     @IBOutlet weak private var yesButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private var alertPresenter = AlertPresenter()
     private var presenter: MovieQuizPresenter?
@@ -18,7 +19,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         
         presenter = MovieQuizPresenter(
             viewController: self,
-            questionFactory: QuestionFactory(),
             statisticsService: StatisticService()
         )
         
@@ -34,6 +34,8 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         noButton.titleLabel?.font = .ysDisplayMedium20
         yesButton.titleLabel?.font = .ysDisplayMedium20
         textLabel.font = .ysDisplayBold23
+        textLabel.text = ""
+        setLoadingIndicator(isVisible: true)
     }
     
     private func setButtonsEnabled(_ isEnabled: Bool) {
@@ -41,10 +43,31 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         noButton.isEnabled = isEnabled
     }
     
+    private func setLoadingIndicator(isVisible: Bool) {
+        activityIndicator.isHidden = !isVisible
+        isVisible ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+    
+    private func showNetworkError(message: String) {
+        setLoadingIndicator(isVisible: false)
+        
+        let alertModel = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonTitle: "Попробовать ещё раз"
+        ) { [weak self] in
+            self?.presenter?.restartGame()
+        }
+        
+        alertPresenter.show(in: self, model: alertModel)
+        setLoadingIndicator(isVisible: true)
+    }
+    
     func show(quiz step: QuizStepViewModel) {
         indexLabel.text = step.questionNumber
         imageView.image = step.image
         textLabel.text = step.question
+        setButtonsEnabled(true)
     }
     
     func show(quiz result: QuizResultViewModel) {
@@ -66,8 +89,15 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func removeHighlight() {
-        setButtonsEnabled(true)
         imageView.layer.borderWidth = 0
+    }
+    
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
     }
     
     // MARK: - Actions
