@@ -57,13 +57,13 @@ final class MovieQuizPresenter {
         }
     }
     
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+    // MARK: - Public methods
+    
+    func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(image: UIImage(data: model.image) ?? UIImage(),
                           question: model.text,
                           questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
-    
-    // MARK: - Public methods
     
     func startGame() {
         questionFactory.loadData()
@@ -89,7 +89,9 @@ final class MovieQuizPresenter {
         guard let question else { return }
         currentQuestion = question
         let viewModel = convert(model: question)
-        viewController?.show(quiz: viewModel)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
     }
     
     func yesButtonClicked() {
