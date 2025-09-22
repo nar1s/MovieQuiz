@@ -61,14 +61,14 @@ struct StubNetworkClient: NetworkRoutingProtocol {
 
 final class MoviesLoaderTests: XCTestCase {
     func testSuccessLoadung() throws {
-        //Given
+        // Given
         _ = StubNetworkClient(emulateError: false)
         let loader = MoviesLoader()
         
-        //When
+        // When
         let expectation = expectation(description: "Loading expactation")
         
-        //Then
+        // Then
         loader.loadMovies { result in
             switch result {
             case .success(_):
@@ -82,14 +82,14 @@ final class MoviesLoaderTests: XCTestCase {
     }
     
     func testFailureLoading() throws {
-        //Given
+        // Given
         let stubClient = StubNetworkClient(emulateError: true)
         let loader = MoviesLoader(networkClient: stubClient)
         
-        //When
+        // When
         let expectation = expectation(description: "Loading expactation")
         
-        //Then
+        // Then
         loader.loadMovies { result in
             switch result {
             case .failure(let error):
