@@ -110,3 +110,4 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         presenter?.noButtonClicked()
     }
 }
+
